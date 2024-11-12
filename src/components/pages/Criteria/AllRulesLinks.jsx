@@ -13,6 +13,11 @@ function AllRulesWithRoutes({ filters }) {
   useEffect(() => {
     let isMounted = true;
 
+    // Prevent fetching if data is already loaded
+    if (filteredFormRules.length > 0) {
+      return;
+    }
+
     const fetchData = async () => {
       showLoading();
       try {
@@ -39,7 +44,7 @@ function AllRulesWithRoutes({ filters }) {
     return () => {
       isMounted = false;
     };
-  }, [filters, showLoading, hideLoading]);
+  }, [filters, showLoading, hideLoading, filteredFormRules.length]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -49,7 +54,7 @@ function AllRulesWithRoutes({ filters }) {
     <Routes>
       {filteredFormRules.map((formRule) => (
         <Route
-          key={`${formRule.id}-${formRule.criteria}-${formRule.route}`} // Ensure unique key
+          key={`${formRule.id}-${formRule.criteria}-${formRule.route}`}
           path={`${formRule.criteria}/${formRule.route}`}
           element={<ItemPage ruleData={formRule} />}
         />

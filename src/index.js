@@ -11,7 +11,7 @@ import GlobalLoading from './components/util/GlobalLoading';  // Import GlobalLo
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router>  {/* No need for basename in HashRouter */}
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>  {/* Enable future flags */}
       <LoadingProvider>  {/* Wrap with LoadingProvider */}
         <ModalProvider>
           <GlobalLoading />  {/* Display loading bar at the top when loading */}

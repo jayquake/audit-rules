@@ -10,16 +10,17 @@ import CustomizedBreadcrumbs from "../util/ruleBreadcrumb";
 class IssueFailure extends Component {
   state = {
     itemContent: this.props.itemContent,
-    itemDescription: this.props.itemDescription
+    itemDescription: this.props.itemDescription,
   };
+
   render() {
     const { itemContent, itemDescription } = this.props;
 
     return (
       <>
         <Container sx={{ mt: 4, mb: 4 }}>
-          <Grid container xs={12}>
-            <Grid item xs={12}>
+          <Grid container spacing={2}> {/* container added here */}
+            <Grid item xs={12}> {/* item added here */}
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                 <CustomizedBreadcrumbs />
                 <Divider />
@@ -37,15 +38,15 @@ class IssueFailure extends Component {
         </Container>
 
         <Container sx={{ mt: 4, mb: 4 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+          <Grid container spacing={2}> {/* container added here */}
+            <Grid item xs={12}> {/* item added here */}
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                 <Typography m="auto" variant="overline">
                   Failure Examples
                 </Typography>
-                <Divider sx={{ mb: 2 }}></Divider>
+                <Divider sx={{ mb: 2 }} />
                 {itemContent}
-                <Grid item xs={12}>
+                <Grid item xs={12}> {/* item added here */}
                   <Stack direction="row" spacing={1}></Stack>
                 </Grid>
               </Paper>

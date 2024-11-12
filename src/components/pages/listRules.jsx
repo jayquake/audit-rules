@@ -108,7 +108,7 @@ class List extends Component {
                   </Typography>
                 </Typography>
                 <Box sx={{ width: "100%" }}>
-                  <Grid
+                  <Grid item xs={12}
                     container
                     direction="row"
                     justifyContent="center"

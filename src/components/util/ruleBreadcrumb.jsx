@@ -17,10 +17,9 @@ function capitalizeFirstLetter(string) {
 
 const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
   const location = useLocation();
-  const navigate = useNavigate(); // Use useNavigate to get the navigation function
+  const navigate = useNavigate();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
-  // Extract the relevant part of the URL to determine the selected option
   const selectedOptionFromURL = pathnames.find((pathname) =>
     pathname.includes("failure")
       ? "Failure"
@@ -35,17 +34,15 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
   var lastPart = parts[parts.length - 1];
 
   const handleOptionSelection = (selectedValue) => {
-    // Construct the new URL based on the selected option
     const newURL = location.pathname.replace(
       /(_success|_failure)/,
       `_${selectedValue.toLowerCase()}`
     );
-    // Navigate to the new URL using navigate
     navigate(newURL);
   };
 
   return (
-    <Grid container xs={12}>
+    <Grid container item xs={12}> {/* Added "item" prop */}
       <Paper elevation={0} style={{ padding: "8px 16px" }}>
         <Breadcrumbs
           separator={<NavigateNextIcon fontSize="small" />}
@@ -70,7 +67,7 @@ const CustomizedBreadcrumbs = ({ selectedOption, handleOptionChange }) => {
                 return word.charAt(0).toUpperCase() + word.slice(1);
               })
               .join(" ");
-            //console.log(`/${pathnames[0]}#${parts[0]}`)
+
             return last ? (
               <NavLink
                 underline="hover"
