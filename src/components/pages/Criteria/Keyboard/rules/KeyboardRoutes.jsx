@@ -1,9 +1,10 @@
-import NonintTabFail from "./Failure/NonintTabFail";
-import NonintTabSucc from "./Success/NonintTabSucc";
+// KeyboardRoutes.jsx
 import React from "react";
 import { Route } from "react-router-dom";
+import NonintTabFail from "./Failures/NonintTabFail";
+import NonintTabSucc from "./Success/NonintTabSucc";
 
-export default [
+const KeyboardRoutes = () => (
   <>
     <Route
       path="/keyboard/noninteractive-tabindex_success"
@@ -14,4 +15,6 @@ export default [
       element={<NonintTabFail />}
     />
   </>
-];
+);
+
+export default KeyboardRoutes;

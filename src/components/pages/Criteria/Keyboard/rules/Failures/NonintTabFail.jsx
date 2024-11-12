@@ -1,5 +1,5 @@
 import React from "react";
-import IssueFailure from "../../../../layout/issueFailure";
+import IssueFailure from "../../../../../layout/issueFailure";
 
 const itemDescription = "Keyboard - Non Interactive Tab Index Failures";
 

@@ -8,11 +8,10 @@ import Divider from "@mui/material/Divider";
 import { Typography } from "@mui/material";
 import SimpleBreadcrumbs from "../util/BreadCrumb";
 import MenuBookTwoToneIcon from "@mui/icons-material/MenuBookTwoTone";
-import CustomizedDialogs from "../layout/ruleModal";
-import ArticleIcon from "@mui/icons-material/Article";
 import LinearDeterminate from "../util/LoadingState";
 import CustomNavLink from "../layout/customNavLink";
 import { Container } from "@mui/joy";
+
 class List extends Component {
   state = {
     filters: this.props.filters,
@@ -32,7 +31,6 @@ class List extends Component {
         value: true,
       },
     ],
-
     sorters: [
       {
         property: "name",
@@ -45,37 +43,29 @@ class List extends Component {
 
   static transformInput(input) {
     if (typeof input !== "string") {
-      // If input is not a string, convert it to a string
       input = input.toString();
     }
-
-    // Remove trailing '/I'
     if (input.endsWith("/I")) {
       input = input.slice(0, -2);
     }
-
-    // Remove leading slash
     if (input.startsWith("/")) {
       input = input.slice(1);
     }
-
-    // Capitalize the first letter and return the result
     return input.charAt(0).toUpperCase() + input.slice(1);
   }
 
   componentDidMount() {
     fetch("/audit-rules/data.json")
       .then((res) => res.json())
-      .then(this.onLoad);
+      .then(this.onLoad)
+      .catch((error) => console.error("Error fetching data:", error));
   }
 
   parseData(data) {
     const { sorters } = this.state;
-
     if (data && data.length && Array.isArray(sorters) && sorters.length) {
       data.sort(createSorter(...sorters));
     }
-
     return data;
   }
 
@@ -88,63 +78,59 @@ class List extends Component {
 
   render() {
     const { data, loading, progress } = this.state;
-
     return data ? this.renderData(data) : this.renderLoading(progress);
   }
 
   renderData(data) {
     if (data && data.length > 0) {
       const { filters } = this.state;
-      const filteredData = data.filter(createFilter(...filters)); // Apply filters
+      const filteredData = data.filter(createFilter(...filters));
       const formattedFilterValue = List.transformInput(
-        filteredData[0].criteria,
+        filteredData[0].criteria
       ).split("/")[0];
-      console.log(filteredData[0].criteria);
 
       return (
-        <>
-          <Container sx={{ mt: 4, mb: 4 }}>
-            <Grid item xs={12}>
-              <Paper>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <SimpleBreadcrumbs />
-                  <Divider />
-                  <Typography
-                    sx={{ p: 2 }}
-                    m="auto"
-                    variant="overline"
-                    gutterBottom
-                  >
-                    Rules Associated with the criteria:
-                    <Typography
-                      align="center"
-                      variant="subtitle1"
-                    >{`${formattedFilterValue}`}</Typography>
+        <Container sx={{ mt: 4, mb: 4 }}>
+          <Grid item xs={12}>
+            <Paper>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <SimpleBreadcrumbs />
+                <Divider />
+                <Typography
+                  sx={{ p: 2 }}
+                  m="auto"
+                  variant="overline"
+                  gutterBottom
+                >
+                  Rules Associated with the criteria:
+                  <Typography align="center" variant="subtitle1">
+                    {`${formattedFilterValue}`}
                   </Typography>
-                  <Box sx={{ width: "100%" }}>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="center"
-                      alignItems="center"
-                      spacing="2"
-                      sx={{ p: 1 }}
-                    >
-                      {filteredData.map((item) => (
-                        <CustomNavLink
-                          to={`/${item.criteria}/${item.route}`}
-                          itemData={item}
-                          label={`${item.name}: ${item.shortDescription}`}
-                          icon={MenuBookTwoToneIcon}
-                        />
-                      ))}
-                    </Grid>
-                  </Box>
-                </Paper>
+                </Typography>
+                <Box sx={{ width: "100%" }}>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={2}
+                    sx={{ p: 1 }}
+                  >
+                    {filteredData.map((item, index) => (
+                     <CustomNavLink
+                     key={item.id || `${item.criteria}-${item.route}-${index}`}
+                     to={`/${item.criteria}/${item.route}`}
+                     label={`${item.name}: ${item.shortDescription}`}
+                     icon={MenuBookTwoToneIcon}
+                   />
+                   
+                    ))}
+                  </Grid>
+                </Box>
               </Paper>
-            </Grid>
-          </Container>
-        </>
+            </Paper>
+          </Grid>
+        </Container>
       );
     } else {
       return <div>No items found</div>;
@@ -153,24 +139,19 @@ class List extends Component {
 
   renderLoading(progress) {
     return (
-      <>
-        <Container sx={{ mt: 8, mb: 4 }}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper>
-                <Grid item xs={12}>
-                  <Paper
-                    sx={{ p: 2, display: "flex", flexDirection: "column" }}
-                  >
-                  </Paper>
+      <Container sx={{ mt: 8, mb: 4 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper>
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   <LinearDeterminate progress={progress} />
-
-                </Grid>
-              </Paper>
-            </Grid>
+                </Paper>
+              </Grid>
+            </Paper>
           </Grid>
-        </Container>
-      </>
+        </Grid>
+      </Container>
     );
   }
 }

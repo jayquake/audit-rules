@@ -1,5 +1,5 @@
 import React from "react";
-import IssueSuccess from "../../../../layout/issueSuccess";
+import IssueSuccess from "../../../../../layout/issueSuccess";
 
 const itemDescription = "Keyboard - Non Interactive Tab Index Success";
 

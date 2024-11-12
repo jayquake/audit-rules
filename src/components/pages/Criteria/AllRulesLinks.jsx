@@ -7,8 +7,6 @@ import { useLoading } from "../../util/LoadingContext";
 function AllRulesWithRoutes({ filters }) {
   const { showLoading, hideLoading } = useLoading();
   const location = useLocation();
-  const pathnames = location.pathname.split("/").filter((x) => x);
-  const currentPath = pathnames[1];
   const [filteredFormRules, setFilteredFormRules] = useState([]);
   const [error, setError] = useState(null);
 
@@ -38,7 +36,6 @@ function AllRulesWithRoutes({ filters }) {
 
     fetchData();
 
-    // Only set `isMounted` to false in the cleanup function, no need to call `hideLoading` again
     return () => {
       isMounted = false;
     };
@@ -52,7 +49,7 @@ function AllRulesWithRoutes({ filters }) {
     <Routes>
       {filteredFormRules.map((formRule) => (
         <Route
-          key={formRule.id}
+          key={`${formRule.id}-${formRule.criteria}-${formRule.route}`} // Ensure unique key
           path={`${formRule.criteria}/${formRule.route}`}
           element={<ItemPage ruleData={formRule} />}
         />
