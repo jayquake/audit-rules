@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom'; // Use HashRouter here
 import { ModalProvider } from './components/util/ModalContext';
 import { LoadingProvider } from './components/util/LoadingContext';  // Import LoadingProvider
 import GlobalLoading from './components/util/GlobalLoading';  // Import GlobalLoading
@@ -11,8 +11,8 @@ import GlobalLoading from './components/util/GlobalLoading';  // Import GlobalLo
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router basename="/audit-rules">  {/* Set the base path here */}
-    <LoadingProvider>  {/* Wrap with LoadingProvider */}
+    <Router>  {/* No need for basename in HashRouter */}
+      <LoadingProvider>  {/* Wrap with LoadingProvider */}
         <ModalProvider>
           <GlobalLoading />  {/* Display loading bar at the top when loading */}
           <App />
