@@ -64,8 +64,9 @@ const AppRoutes = ({ navigate }) => (
     {ContextRoutes()}
     {KeyboardRoutes()}
     {FormruleRoutes()}
-   {/* {CarouselsRoutes()}
     {DocumentRoutes()}
+   {/* {CarouselsRoutes()}
+    
     {ErrorsRoutes()}
     {GraphicsRoutes()}
     {NavigationRoutes()}

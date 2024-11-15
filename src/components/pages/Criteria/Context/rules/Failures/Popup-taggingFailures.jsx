@@ -1,32 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import IssueFailure from "../../../../../layout/issueFailure";
 
 const itemDescription = "Context : Popup Tagging - Failure";
 
-export default () => (
-  <IssueFailure
-    itemContent={
-      <>
-        <div className="list-item" id="popup-tagging-failure-1">
-          <div className="my-popup" role="dialog">Popup Content</div>
-        </div>
-        <div className="list-item" id="popup-tagging-failure-2">
-          <div className="my-popup" aria-modal="true">Popup Content</div>
-        </div>
-        <div className="list-item" id="popup-tagging-failure-3">
-          <div className="my-popup">Popup Content</div>
-        </div>
-        <div className="list-item" id="popup-tagging-failure-4">
-          <div className="my-popup" role="dialog" aria-modal="true" aria-hidden="true">Popup Content</div>
-        </div>
-        <div className="list-item" id="popup-tagging-failure-5">
-          <div className="my-popup" role="alertdialog">Popup Content</div>
-        </div>
-        <div className="list-item" id="popup-tagging-failure-6">
-          <div className="my-popup" role="dialog" aria-live="polite">Popup Content</div>
-        </div>
-      </>
-    }
-    itemDescription={itemDescription}
-  />
-);
+const BadPopup = ({ isOpen, onClose, id, title }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="overlay">
+      {/* Missing role and aria-modal attributes */}
+      <div className="popup-content">
+        <h2>{title}</h2>
+        <p>This popup has no proper accessibility features.</p>
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
+
+export default () => {
+  const [popupOpen, setPopupOpen] = useState({});
+
+  const openPopup = (id) => setPopupOpen({ ...popupOpen, [id]: true });
+  const closePopup = (id) => setPopupOpen({ ...popupOpen, [id]: false });
+
+  return (
+    <IssueFailure
+      itemContent={
+        <>
+          {["1", "2", "3", "4", "5", "6"].map((id) => (
+            <div
+              className="list-item trigger"
+              id={`popup-tagging-failure-${id}`}
+              key={id}
+              onClick={() => openPopup(id)}
+              /* Missing accessibility attributes like role or tabIndex */
+            >
+              Open Popup {id}
+              <BadPopup
+                isOpen={popupOpen[id]}
+                onClose={() => closePopup(id)}
+                id={id}
+                title={`Popup Title ${id}`}
+              />
+            </div>
+          ))}
+        </>
+      }
+      itemDescription={itemDescription}
+    />
+  );
+};
